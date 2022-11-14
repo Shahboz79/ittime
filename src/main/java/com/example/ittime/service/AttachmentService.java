@@ -48,7 +48,7 @@ public class AttachmentService {
                     .build();
 
             Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-            if (optionalAttachment.isEmpty())
+            if (!optionalAttachment.isPresent())
                 return saveFile(file);
 
             Attachment attachment=optionalAttachment.get();

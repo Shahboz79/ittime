@@ -42,7 +42,7 @@ public class ArticleService {
 
         Integer categoryId = articleDto.getCategoryId();
         Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        if (optionalCategory.isEmpty()) {
+        if (!optionalCategory.isPresent()) {
             throw new IllegalStateException("Category not found!!");
         }
         boolean existsByTitle = articleRepository.existsByTitle(articleDto.getTitle());
@@ -78,12 +78,12 @@ public class ArticleService {
 
     public ApiResponse updateArticle(Integer id, ArticleDto articleDto, MultipartFile image) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
-        if (optionalArticle.isEmpty())
+        if (!optionalArticle.isPresent())
             return new ApiResponse("article not found", false);
         Article article = optionalArticle.get();
         if (articleDto.getCategoryId()!=null) {
             Optional<Category> optionalCategory = categoryRepository.findById(articleDto.getCategoryId());
-            if (optionalArticle.isEmpty()){
+            if (!optionalArticle.isPresent()){
             return new ApiResponse("category not found", false);}
             else{
                 article.setCategory(optionalCategory.get());
@@ -103,7 +103,7 @@ public class ArticleService {
 
     public ApiResponse deleteArticle(Integer id) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
-        if (optionalArticle.isEmpty())
+        if (!optionalArticle.isPresent())
             return new ApiResponse("article not found", false);
         articleRepository.delete(optionalArticle.get());
         return new ApiResponse("deleted", true);
@@ -112,7 +112,7 @@ public class ArticleService {
 
     public ApiResponse getArticle(Integer id) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
-        if (optionalArticle.isEmpty())
+        if (!optionalArticle.isPresent())
             return new ApiResponse("article not found", false);
         ArticleProjection articleProjection = articleRepository.getArticle(optionalArticle.get());
 
